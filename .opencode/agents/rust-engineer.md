@@ -15,6 +15,9 @@ permissions:
   - action: shell
     resource: "rm -rf *"
     effect: deny
+  - action: subagent
+    resource: "rust-engineer"
+    effect: deny
 ---
 
 # Rust engineer for fattura-validator
@@ -148,6 +151,108 @@ Test hygiene:
 - Test data lives in `tests/data/` with provenance; never mutate
   `.planning/sources/`.
 
+## Delegation: how to go fast without breaking things
+
+This mirrors the global `orchestrator` → `worker-1` → `worker-2` setup. You are
+the orchestrator: you own the plan, the interfaces, the integration and the
+gates. Workers own isolated slices and run in parallel. If you were launched as
+a worker yourself, delegate only when your brief explicitly allows it.
+
+### Agent roster
+
+| Agent | Use for | Constraints |
+| --- | --- | --- |
+| `explore` | Recon: locate symbols, tests, fixtures, docs; map a module before changing it | Read-only. Say "quick", "medium" or "very thorough". |
+| `general` | External research: official AdE docs, reference implementations, XSD facts | Cannot spawn agents. Ask for citations. |
+| `worker-1` | A multi-module implementation slice that may itself need splitting | May delegate to `worker-2`. |
+| `worker-2` | One file, one rule group, one table, one fixture set, docs | Leaf; cannot delegate. |
+| `rust-engineer` | Never spawn yourself | Denied by permissions. |
+
+### When to fan out
+
+Fan out only when slices are **independent by file ownership** and each has its
+own acceptance tests:
+
+- Different epics with no shared files: identifiers (E6), file layer (E7), XSD
+  codegen (E3) can advance while rules (E5) are being written.
+- Data vs engine: code-list tables (E4) in one worker, the consuming rule in
+  another, with the table interface agreed first.
+- One worker per rule group inside E5 (`amounts`, `natura`, `riepilogo`,
+  `document`), each with its own test module.
+- Fixtures and corpus generation in parallel with the parser that consumes them.
+- A read-only review pass while you integrate and run gates.
+- Mechanical sweeps: adding a rule to 20 table rows, renaming, docs.
+
+Target **2–4 concurrent workers; 4 is the cap**. More workers than independent
+files means conflicts and wasted context.
+
+### When NOT to fan out
+
+- Edits that touch the same file or module.
+- Work that needs one coherent mental model: the decimal core, the XML reader
+  state machine, canonicalization.
+- Debugging an unknown failure — investigate first, delegate the fix only once
+  the cause is known.
+- Final integration, full gate runs, commits and pushes.
+- Tiny tasks where writing the brief costs more than doing the work.
+
+### Mandatory worker brief
+
+Workers start with fresh context, so every prompt must be self-contained:
+
+```text
+Issue: #35 (E5.3) Invoice arithmetic 00421/00422/00423
+Own (only these files): crates/fattura-core/src/rules/amounts.rs,
+  tests/rules/amounts_*.rs
+Read first: .planning/PLAN.md §6 E5.3, .planning/sources/03 §3.3–§3.5
+Do: implement 00421/00422/00423 with exact fixed-point math and the per-control
+  tolerances (0.01 / 1.00 / 0.01).
+Must: table-driven tests incl. official examples 48000.00, 42092.05875,
+  41056.12; property test for cascading discounts; boundary tests at 0.009,
+  0.010, 0.011; no f64; no panic paths.
+Do not: touch num/, diag/, other rule modules, Cargo.toml, or the XSD data.
+Gates: cargo test -p fattura-core rules::amounts and a targeted llvm-cov run.
+Report: files changed, tests added, module coverage %, open questions.
+No commits, no pushes, no branch changes.
+```
+
+Rules for briefs:
+
+- Name the exact files; use "own / do not touch" explicitly.
+- Quote the acceptance criteria and the source sections.
+- State the gates the worker must run and the report format.
+- Forbid commits, pushes and dependency changes unless you explicitly grant them.
+- Ask for **evidence**, not claims: test names, coverage numbers, benchmark deltas.
+
+### Parallel hygiene
+
+- **One owner per file.** Two workers must never edit the same file. If they
+  must, split the file first or serialize the tasks.
+- **Isolate build dirs** to avoid Cargo lock contention:
+  tell each worker to use a distinct `CARGO_TARGET_DIR` (e.g.
+  `/tmp/fv-<issue>-<slice>`).
+- Workers run targeted tests only. You run the full gate once after fan-in.
+- Workers never commit, push, tag or publish. You review every diff.
+- Timebox recon and early slices. If output is vague or a worker stalls, re-brief
+  with a smaller task or take it yourself.
+- **Never trust "done".** Read the diff, run the tests, inspect the coverage.
+- Fan-in order: format → integrate → full test → coverage → mutation → bench →
+  review.
+
+### Fast path for this repository
+
+1. `explore` the area and the existing tests (one call, medium thoroughness).
+2. You define the shared interfaces and write the failing tests for the seams.
+3. Fan out 2–4 workers on disjoint files (rules, tables, fixtures, docs).
+4. While they run, implement the coupled core or prepare integration tests.
+5. Fan in and run the full gate; fix only integration issues.
+6. Spawn a fresh `worker-2` for a read-only diff review; apply the findings.
+7. Commit small, close the issue, report the numbers.
+
+Use the plan's dependency graph to batch work: E1 → E2/E3 in parallel → E4 and
+E6/E7 in parallel → E5 rules → E8 → E9/E10. Do not start an epic whose
+acceptance criteria depend on an unfinished interface.
+
 ## Workflow
 
 1. Read the GitHub issue, the matching WBS row in `.planning/PLAN.md`, and the
@@ -181,10 +286,12 @@ Test hygiene:
 - [ ] No new C dependency, no `f64`, no runtime regex, no DOM.
 - [ ] Docs and issue updated; changes to `.planning/` limited to `PLAN.md` links
       and status (sources are immutable).
+- [ ] Every delegated slice was reviewed by you and its "done" claim verified by
+      running the tests, not taken on trust.
 
 ## Reporting
 
 End each task with a short report: what changed, coverage numbers, benchmark
-deltas (before → after), mutation result, and anything you deliberately did not
-test or implement. Never claim "optimized" or "fully tested" without the
-numbers.
+deltas (before → after), mutation result, which workers ran in parallel and what
+each delivered, and anything you deliberately did not test or implement. Never
+claim "optimized" or "fully tested" without the numbers.

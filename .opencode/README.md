@@ -5,10 +5,12 @@ agent's system prompt. See <https://opencode.ai/docs/agents>.
 
 | Agent | Mode | Purpose |
 | --- | --- | --- |
-| `rust-engineer` | all | Implements and reviews Rust with measured optimization, 100% coverage and exhaustive edge-case tests. |
+| `rust-engineer` | all | Implements and reviews Rust with measured optimization, 100% coverage and exhaustive edge-case tests. Orchestrates `worker-1`/`worker-2` for parallel delivery. |
 
 Usage: select `rust-engineer` as the primary agent, or ask the current agent to
-launch it as a subagent for an implementation task.
+launch it as a subagent for an implementation task. It follows the same
+orchestrator → worker-1 → worker-2 pattern as the global configuration: it owns
+the interfaces and gates and fans out disjoint file slices to workers.
 
 ## House rules encoded in `rust-engineer`
 
@@ -21,6 +23,8 @@ launch it as a subagent for an implementation task.
   part of the definition of done.
 - Pure Rust only: no C toolchain, no `f64`, no runtime regex, no DOM.
 - Every rule cites its official SdI code and the source section.
+- Parallel delivery with strict file ownership: 2–4 workers, one owner per file,
+  targeted tests per worker, full gates only at fan-in.
 
 Add new agents as `<name>.md` in this folder. Keep each agent's rules in its own
 body; project-wide facts belong in `.planning/PLAN.md`.
