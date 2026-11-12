@@ -9,6 +9,19 @@ check.
 > [`.planning/`](.planning/). Work is tracked in the
 > [issue tracker](https://github.com/lorenzo-vecchio/fattura-validator/issues).
 
+## Workspace
+
+| Crate | Role |
+| --- | --- |
+| [`crates/fattura-core`](crates/fattura-core) | The library: I/O-free, network-free, clock-injected, `wasm32`-clean. |
+| [`crates/fattura-cli`](crates/fattura-cli) | `fattura-validate` binary (stub until E9.2). |
+| [`crates/fattura-ffi`](crates/fattura-ffi) | Stable C ABI (stub until E10.1). |
+| [`xtask`](xtask) | Code generation for the static schema model and dated tables. |
+
+The architecture, module map and work breakdown are in
+[`.planning/PLAN.md`](.planning/PLAN.md) (§2.1 for the module tree, §6 for the
+milestones).
+
 ## Why
 
 Most validators either stop at XSD validation or silently drift from the SdI rules:

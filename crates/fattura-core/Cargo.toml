@@ -1,0 +1,43 @@
+[package]
+name = "fattura-core"
+description = "Offline validator for Italian electronic invoices (fatture elettroniche) — core library"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "../../README.md"
+exclude = ["../../.planning/*", "../../.github/*"]
+
+[lib]
+name = "fattura_core"
+path = "src/lib.rs"
+
+[features]
+default = ["std"]
+# The core targets `no_std` + `alloc` eventually. Today `std` is required by the
+# report serialization path; the other features gate optional pipelines.
+std = []
+zip = []
+p7m = ["dep:smallvec"]
+signature = ["dep:smallvec"]
+
+[dependencies]
+serde.workspace = true
+smallvec = { workspace = true, optional = true }
+
+[dev-dependencies]
+serde_json.workspace = true
+insta = { version = "1.41", features = ["json"] }
+proptest = "1.5"
+num-bigint = "0.4"
+num-rational = "0.4"
+num-traits = "0.2"
+
+[lints]
+workspace = true
