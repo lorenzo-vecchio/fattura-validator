@@ -1,0 +1,74 @@
+# Supply-chain policy for the workspace.
+#
+# Enforced in CI by `cargo deny check advisories bans licenses sources`
+# (see .github/workflows/ci.yml). The rules encode PLAN.md §2.3: pure Rust, no
+# C toolchain, no OpenSSL, no libxml2, crates.io only.
+
+[graph]
+# Check every target we care about shipping: the native workspaces and the
+# wasm32 target used by the bindings (E10.2).
+targets = [
+    "x86_64-unknown-linux-gnu",
+    "aarch64-unknown-linux-gnu",
+    "x86_64-apple-darwin",
+    "aarch64-apple-darwin",
+    "x86_64-pc-windows-msvc",
+    "wasm32-unknown-unknown",
+]
+all-features = true
+
+[advisories]
+# Vulnerabilities are always errors in cargo-deny; there is no knob to
+# downgrade them. Known-unmaintained crates are surfaced as warnings so the
+# dependency can be scheduled for replacement without blocking unrelated PRs.
+unmaintained = "all"
+yanked = "warn"
+ignore = []
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+
+# Known C-linked crates. None of these may enter the dependency graph; the
+# whole point of this crate is to be C-toolchain-free and wasm32-clean. Add a
+# crate here with a justification if a pure-Rust path genuinely does not exist.
+deny = [
+    { crate = "openssl", reason = "C/OpenSSL toolchain; use a pure-Rust crypto stack (PLAN §2.3)" },
+    { crate = "openssl-sys", reason = "C/OpenSSL toolchain; use a pure-Rust crypto stack (PLAN §2.3)" },
+    { crate = "libxml", reason = "libxml2 bindings; XSD conformance is a generated static model (E3.2)" },
+    { crate = "libxml2-sys", reason = "libxml2 bindings; XSD conformance is a generated static model (E3.2)" },
+    { crate = "libxml2", reason = "libxml2 wrapper; XSD conformance is a generated static model (E3.2)" },
+    { crate = "expat-sys", reason = "C expat bindings; XML parsing is pure-Rust quick-xml" },
+    { crate = "libz-sys", reason = "C zlib bindings; archives use the pure-Rust zip backend" },
+]
+
+skip = []
+
+[licenses]
+# Conservative allowlist: everything else is denied. MPL-2.0 is tolerated for
+# development-only tooling, never for code linked into released artifacts.
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",
+    "Zlib",
+    "CC0-1.0",
+    "MPL-2.0",
+]
+confidence-threshold = 0.93
+# Dev-only crates (criterion, insta, proptest, ...) never ship, but they still
+# run in CI and on developer machines, so their licences are checked too.
+include-dev = true
+exceptions = []
+
+[sources]
+# crates.io only. Git and alternate registries are denied by default and only
+# allowed here with an explicit, reviewed entry.
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []
