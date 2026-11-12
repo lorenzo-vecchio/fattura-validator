@@ -1,0 +1,151 @@
+name: Rule proposal
+description: Propose a new SdI content rule. Requires the official code, a source citation and a severity justification.
+title: "[rule] "
+labels: ["rule-proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form only for an **offline-checkable** SdI control. Every field marked
+        required is part of the review: a proposal without an official control code, a
+        source citation and a severity justification will be closed.
+
+        Rules follow the `[?]` policy: an unverified item may be a warning or info, never
+        a hard error (PLAN §11; [docs/release-policy.md](https://github.com/lorenzo-vecchio/fattura-validator/blob/main/docs/release-policy.md)).
+        Registry/online checks (003xx, 00404, 00477, CRL/OCSP) are out of scope and belong
+        in `not_checked`, not in a rule (PLAN §5.2; P3 §7).
+
+  - type: input
+    id: control_code
+    attributes:
+      label: Official SdI control code
+      description: Exactly five digits, as printed in the Elenco controlli. Do not invent a code.
+      placeholder: "00423"
+    validations:
+      required: true
+
+  - type: input
+    id: rule_name
+    attributes:
+      label: Short rule name
+      description: A concise name for the finding/rule id.
+      placeholder: "PrezzoTotale arithmetic"
+    validations:
+      required: true
+
+  - type: textarea
+    id: official_description
+    attributes:
+      label: Official description (verbatim)
+      description: Quote the control description from the official source. Do not paraphrase the requirement.
+      placeholder: "2.2.1.11 <PrezzoTotale> non calcolato secondo le regole definite nelle specifiche tecniche"
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Source citation
+      description: |
+        Required. Give the official document, version, section/page and date (and URL or
+        checksum if available). For example: Elenco controlli v1.8 (01/10/2022), §2.2,
+        control 00423. Secondary sources must be labelled as such.
+      placeholder: "Elenco controlli v1.8, 01/10/2022, §..., page ...; accessed YYYY-MM-DD"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: verification
+    attributes:
+      label: Verification status
+      description: How was the quoted requirement verified? This controls the maximum severity.
+      options:
+        - "[V] Verified against the primary official source"
+        - "[S] Reliable secondary source only"
+        - "[?] Unverified — needs verification"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Proposed severity
+      description: Choose the severity you propose; justify it below.
+      options:
+        - error
+        - warning
+        - info
+    validations:
+      required: true
+
+  - type: textarea
+    id: severity_justification
+    attributes:
+      label: Severity justification
+      description: |
+        Required. Why is this severity correct? For an `error`, explain why the SdI would
+        reject the file, the false-positive risk, and the evidence/tests that make it
+        safe. For `warning`/`info`, explain why it must not block.
+      placeholder: "The official rule is normative and the arithmetic is exact; false positives are limited to ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: logic
+    attributes:
+      label: Proposed check / pseudocode
+      description: Inputs, comparison, tolerance, aggregation scope and effective date window.
+      placeholder: |
+        For each DettaglioLinee:
+          expected = quantize(Quantita * PrezzoUnitario, ...)
+          compare with PrezzoTotale within ±0.01
+    validations:
+      required: true
+
+  - type: input
+    id: element_path
+    attributes:
+      label: Element path(s)
+      description: Where the finding points, using the project's path syntax.
+      placeholder: "Body[1]/DatiBeniServizi/DettaglioLinee[3]/PrezzoTotale"
+    validations:
+      required: true
+
+  - type: textarea
+    id: positive_case
+    attributes:
+      label: Positive case
+      description: A minimal, synthetic document that must produce no finding (or the expected warning).
+    validations:
+      required: true
+
+  - type: textarea
+    id: negative_case
+    attributes:
+      label: Negative case
+      description: A minimal, synthetic document that must produce the finding, with code/severity/path.
+    validations:
+      required: true
+
+  - type: input
+    id: plan
+    attributes:
+      label: Related PLAN section / epic
+      description: For example E5.3, PLAN §5.1, or P3 §2.2.
+      placeholder: "E5.3 / PLAN §5.1"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: This control is offline-checkable from the document alone; it does not require Anagrafica tributaria, IndicePA, VIES, AdE declarations, historical data or CRL/OCSP.
+          required: true
+        - label: The control code and quoted description come from an official source; I did not invent or infer them from another implementation.
+          required: true
+        - label: I understand that a `[S]` or `[?]` proposal cannot be emitted as an `error` until verified against a primary source.
+          required: true
+        - label: I have provided positive and negative cases, or explained why they cannot be provided yet.
+          required: true

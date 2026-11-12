@@ -5,7 +5,9 @@ Rust. Validates the file, the XML, the XSD conformance, and the SdI content rule
 can be checked without any network access — then states clearly what it could **not**
 check.
 
-> **Status: planning.** The implementation plan and the research it is based on live in
+> **Status: M1 (E1 — foundation) in progress.** The workspace, diagnostic vocabulary,
+> exact arithmetic, CI gates and project governance are landing under milestone M1. The
+> implementation plan and the research it is based on live in
 > [`.planning/`](.planning/). Work is tracked in the
 > [issue tracker](https://github.com/lorenzo-vecchio/fattura-validator/issues).
 
@@ -21,6 +23,23 @@ check.
 The architecture, module map and work breakdown are in
 [`.planning/PLAN.md`](.planning/PLAN.md) (§2.1 for the module tree, §6 for the
 milestones).
+
+## Governance and documentation
+
+| Document | What it covers |
+| --- | --- |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Development setup, gate commands, test/fixture conventions, hard rules and definition of done. |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Contributor Covenant 2.1 and the enforcement process. |
+| [SECURITY.md](SECURITY.md) | Supported versions, private disclosure, and the no-network-calls design. |
+| [CHANGELOG.md](CHANGELOG.md) | Keep a Changelog history, including the M1 foundation work. |
+| [`docs/adr/`](docs/adr/) | Architecture Decision Records: pure Rust, static schema codegen, layered report. |
+| [`docs/release-policy.md`](docs/release-policy.md) | SemVer for the crate and JSON contract, MSRV, deprecations, release checklist and `[?]` policy. |
+| [`.planning/PLAN.md`](.planning/PLAN.md) | The implementation plan: scope, architecture, work breakdown, risks and open questions. |
+
+Issue forms and the pull-request checklist live in
+[`.github/`](.github/). Security reports must use
+[GitHub Security Advisories](https://github.com/lorenzo-vecchio/fattura-validator/security/advisories/new),
+not a public issue.
 
 ## Why
 
@@ -51,7 +70,7 @@ it can verify, with every finding tied to an official code and an element path.
 ## Usage (target API)
 
 ```rust
-let report = fattura_validator::validate(&bytes, &Options::default())?;
+let report = fattura_core::validate(&bytes, &Options::default());
 for finding in &report.findings {
     eprintln!("{:?} {}: {}", finding.severity, finding.code, finding.message);
 }
