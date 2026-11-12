@@ -1,0 +1,20 @@
+[package]
+name = "fattura-validator"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+description = "Offline validator for Italian electronic invoices (fatture elettroniche)"
+repository = "https://github.com/lorenzo-vecchio/fattura-validator"
+homepage = "https://github.com/lorenzo-vecchio/fattura-validator"
+documentation = "https://docs.rs/fattura-validator"
+readme = "README.md"
+keywords = ["fattura", "fatturapa", "invoice", "validation", "xml"]
+categories = ["parsing", "encoding"]
+exclude = [".planning/*", ".github/*"]
+
+[lib]
+name = "fattura_validator"
+path = "src/lib.rs"
+
+[dependencies]
