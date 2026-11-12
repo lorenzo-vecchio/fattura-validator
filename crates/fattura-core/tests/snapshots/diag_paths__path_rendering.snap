@@ -1,0 +1,11 @@
+---
+source: crates/fattura-core/tests/diag_paths.rs
+expression: rendered
+---
+{
+  "example": "Body[2]/DatiBeniServizi/DettaglioLinee[3]/PrezzoTotale",
+  "multi_digit": "DettaglioLinee[10]/AltriDatiGestionali",
+  "prepared_segment": "Allegati[7]",
+  "root": "",
+  "zero_index_is_absent": "Body/DatiGenerali"
+}
