@@ -1,20 +1,52 @@
-[package]
-name = "fattura-validator"
+[workspace]
+resolver = "3"
+members = ["crates/fattura-core", "crates/fattura-cli", "crates/fattura-ffi", "xtask"]
+default-members = ["crates/fattura-core"]
+exclude = [".planning"]
+
+[workspace.package]
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.85"
 license = "MIT OR Apache-2.0"
-description = "Offline validator for Italian electronic invoices (fatture elettroniche)"
+authors = ["Lorenzo Giovanni Vecchio"]
 repository = "https://github.com/lorenzo-vecchio/fattura-validator"
 homepage = "https://github.com/lorenzo-vecchio/fattura-validator"
-documentation = "https://docs.rs/fattura-validator"
-readme = "README.md"
+documentation = "https://docs.rs/fattura-core"
 keywords = ["fattura", "fatturapa", "invoice", "validation", "xml"]
 categories = ["parsing", "encoding"]
-exclude = [".planning/*", ".github/*"]
 
-[lib]
-name = "fattura_validator"
-path = "src/lib.rs"
+[workspace.dependencies]
+fattura-core = { path = "crates/fattura-core", version = "0.1.0" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+smallvec = "1.13"
+jiff = "0.2"
 
-[dependencies]
+[workspace.lints.rust]
+unsafe_code = "deny"
+unused_must_use = "deny"
+missing_docs = "warn"
+
+[workspace.lints.clippy]
+# No panics on user input. Test code opts out locally with `#[allow]` where a
+# panic is the assertion.
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+indexing_slicing = "warn"
+arithmetic_side_effects = "warn"
+pedantic = { level = "warn", priority = -1 }
+must_use_candidate = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+module_name_repetitions = "allow"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.bench]
+lto = true
+codegen-units = 1

@@ -1,0 +1,71 @@
+name: Feature request
+description: Propose an API, CLI, binding, performance or documentation improvement.
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This project is offline by design: it validates L0–L3 and discloses L4–L5 as not
+        checked (PLAN §1, §5.2). Requests that require network access or online registries
+        will not be implemented as checks. For a new SdI control, use the **Rule proposal**
+        form instead.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What can you not do today, and who is affected?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the API/CLI/behaviour. Include a sketch if useful.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds, other designs, or why the current behaviour is insufficient.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - fattura-core public API
+        - Report / JSON contract
+        - fattura-cli
+        - bindings (C / WASM / Python / Node)
+        - performance / benchmarks
+        - documentation / governance
+        - build / CI / tooling
+        - other
+    validations:
+      required: true
+
+  - type: input
+    id: plan
+    attributes:
+      label: Related plan section or issue
+      description: Optional. For example PLAN §9.1, E9.3, or an existing issue number.
+      placeholder: "PLAN §4 / E9.1"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: This request does not require the validator to make network calls or query online registries.
+          required: true
+        - label: I understand that "this invoice is valid" is not a supported output; the result is a layered report.
+          required: true

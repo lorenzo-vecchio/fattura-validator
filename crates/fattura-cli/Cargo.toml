@@ -1,0 +1,23 @@
+[package]
+name = "fattura-cli"
+description = "Command-line interface for fattura-core (stub until E9.2)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+publish = false
+
+[[bin]]
+name = "fattura-validate"
+path = "src/main.rs"
+
+[dependencies]
+fattura-core.workspace = true
+
+[lints]
+workspace = true

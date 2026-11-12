@@ -1,0 +1,108 @@
+name: Bug report
+description: Report a crash, wrong finding, or report regression in fattura-validator.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please provide the smallest input that reproduces it
+        and sanitize all real invoices, tax identifiers and personal data.
+
+        **Do not report security vulnerabilities here.** Use the private process in
+        [SECURITY.md](https://github.com/lorenzo-vecchio/fattura-validator/blob/main/SECURITY.md).
+
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Crate version, released tag, or the commit SHA you tested.
+      placeholder: "0.1.0 / 68abe8c"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the workspace is affected?
+      options:
+        - fattura-core (library / report)
+        - fattura-cli
+        - signature / .p7m / XAdES
+        - ZIP / encoding / file layer
+        - schema / XSD conformance
+        - identifiers / arithmetic
+        - documentation / governance
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: A short description of the wrong behaviour.
+      placeholder: "validate() reports 00423 as an error for ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: |
+        Steps, command, or the smallest sanitized XML/ZIP/p7m. Do not attach real
+        invoices or personal data. A synthetic fragment is preferred.
+      placeholder: |
+        1. Run `cargo test -p fattura-core ...`
+        2. Input: `<FatturaElettronica ...>`
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected report
+      description: The finding(s), severity, level, path or exit code you expected.
+      placeholder: "A warning with code 00423 on Body[1]/.../PrezzoTotale"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual report
+      description: Paste the sanitized report/JSON or the relevant finding lines.
+      render: json
+    validations:
+      required: true
+
+  - type: input
+    id: control_code
+    attributes:
+      label: Official SdI control code (if any)
+      description: Five-digit code, e.g. 00423. Leave empty when the issue is not rule-specific.
+      placeholder: "00423"
+    validations:
+      required: false
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Rust version, target, and enabled features.
+      placeholder: "Linux x86_64, rustc 1.85.0, features: zip,p7m"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I removed real invoices, tax identifiers and personal data from this report.
+          required: true
+        - label: This is not a security vulnerability (those go through SECURITY.md).
+          required: true
