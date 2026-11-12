@@ -237,108 +237,108 @@ Each item below becomes a GitHub issue. `needs-verification` marks items blocked
 open question from the sources — they must be resolved against official PDFs before the
 behaviour is frozen. Dependencies are listed so the board can be ordered.
 
-### E1 — Foundation and diagnostics
+### [E1 — Foundation and diagnostics](https://github.com/lorenzo-vecchio/fattura-validator/issues/1) (tracking issue #1)
 
 | Key | Title | Depends on |
 | --- | --- | --- |
-| E1.1 | Workspace skeleton and crate boundaries | — |
-| E1.2 | Diagnostic model: codes, severities, levels, paths, report | E1.1 |
-| E1.3 | Exact decimal arithmetic core | E1.1 |
-| E1.4 | CI quality gates and supply-chain policy | E1.1 |
-| E1.5 | Project documentation and governance | E1.1 |
+| [E1.1](https://github.com/lorenzo-vecchio/fattura-validator/issues/11) | Workspace skeleton and crate boundaries | — |
+| [E1.2](https://github.com/lorenzo-vecchio/fattura-validator/issues/12) | Diagnostic model: codes, severities, levels, paths, report | E1.1 |
+| [E1.3](https://github.com/lorenzo-vecchio/fattura-validator/issues/13) | Exact decimal arithmetic core | E1.1 |
+| [E1.4](https://github.com/lorenzo-vecchio/fattura-validator/issues/14) | CI quality gates and supply-chain policy | E1.1 |
+| [E1.5](https://github.com/lorenzo-vecchio/fattura-validator/issues/15) | Project documentation and governance | E1.1 |
 
-### E2 — L1 XML ingestion and typed model
-
-| Key | Title | Depends on |
-| --- | --- | --- |
-| E2.1 | Streaming XML reader with namespace-agnostic local-name matching | E1.1 |
-| E2.2 | Typed document model for FPA12/FPR12 | E2.1, E1.2 |
-| E2.3 | Typed document model for FSM10 (semplificata) | E2.2, E3.1 |
-| E2.4 | Multi-body lotto support and per-body scoping | E2.2 |
-| E2.5 | XML robustness: encodings, BOM, PIs, whitespace, malformed input | E2.1 |
-
-### E3 — L2 XSD conformance
+### [E2 — L1 XML ingestion and typed model](https://github.com/lorenzo-vecchio/fattura-validator/issues/2) (tracking issue #2)
 
 | Key | Title | Depends on |
 | --- | --- | --- |
-| E3.1 | Vendor official XSDs with checksums and provenance manifest | — |
-| E3.2 | Generate a static schema model from the XSDs | E3.1, E2.1 |
-| E3.3 | XSD simple-type facet engine (XSD regex, lengths, ranges, whitespace) | E3.2 |
-| E3.4 | Structural validation over the schema model (order, cardinality, choice) | E3.3 |
-| E3.5 | Differential XSD conformance tests against xmllint + relaxed-policy set | E3.4, E9.5 |
+| [E2.1](https://github.com/lorenzo-vecchio/fattura-validator/issues/16) | Streaming XML reader with namespace-agnostic local-name matching | E1.1 |
+| [E2.2](https://github.com/lorenzo-vecchio/fattura-validator/issues/17) | Typed document model for FPA12/FPR12 | E2.1, E1.2 |
+| [E2.3](https://github.com/lorenzo-vecchio/fattura-validator/issues/18) | Typed document model for FSM10 (semplificata) | E2.2, E3.1 |
+| [E2.4](https://github.com/lorenzo-vecchio/fattura-validator/issues/19) | Multi-body lotto support and per-body scoping | E2.2 |
+| [E2.5](https://github.com/lorenzo-vecchio/fattura-validator/issues/20) | XML robustness: encodings, BOM, PIs, whitespace, malformed input | E2.1 |
 
-### E4 — Code lists and effective-dated rulesets
-
-| Key | Title | Depends on |
-| --- | --- | --- |
-| E4.1 | Effective-dated table infrastructure | E1.2 |
-| E4.2 | SdI closed enumerations from the XSD | E4.1, E3.1 |
-| E4.3 | Deprecation windows and validity cutovers | E4.2 |
-| E4.4 | CausalePagamento with CU-yearly versions | E4.1 |
-| E4.5 | AltriDatiGestionali/TipoDato quasi-enumeration | E4.1 |
-| E4.6 | External open lists: ISO 3166-1, ISO 4217, provinces, Incoterms | E4.1 |
-
-### E5 — L3 content rules (004xx)
+### [E3 — L2 XSD conformance](https://github.com/lorenzo-vecchio/fattura-validator/issues/3) (tracking issue #3)
 
 | Key | Title | Depends on |
 | --- | --- | --- |
-| E5.1 | Natura ↔ AliquotaIVA consistency | E2.2, E4.2 |
-| E5.2 | Riepilogo coverage and matching (00419/00443/00444) | E5.1 |
-| E5.3 | Invoice arithmetic: 00421, 00422, 00423 | E1.3, E5.2 |
-| E5.4 | Withholding, payment and discount structure | E5.3 |
-| E5.5 | Transmission coherence: 00427, 00428, 00426, 00313 | E2.2, E4.2 |
-| E5.6 | TipoDocumento rule matrix 00471–00476 | E2.4, E4.2 |
-| E5.7 | Deprecated codes and FSM10 amount cap (00445, 00459, 00460) | E4.3 |
-| E5.8 | Intra-file duplication (00409) and duplicate warnings (00404) | E2.4 |
-| E5.9 | Recommended non-SdI checks E1–E18 | E5.3, E6.* |
+| [E3.1](https://github.com/lorenzo-vecchio/fattura-validator/issues/21) | Vendor official XSDs with checksums and provenance manifest | — |
+| [E3.2](https://github.com/lorenzo-vecchio/fattura-validator/issues/22) | Generate a static schema model from the XSDs | E3.1, E2.1 |
+| [E3.3](https://github.com/lorenzo-vecchio/fattura-validator/issues/23) | XSD simple-type facet engine (XSD regex, lengths, ranges, whitespace) | E3.2 |
+| [E3.4](https://github.com/lorenzo-vecchio/fattura-validator/issues/24) | Structural validation over the schema model (order, cardinality, choice) | E3.3 |
+| [E3.5](https://github.com/lorenzo-vecchio/fattura-validator/issues/25) | Differential XSD conformance tests against xmllint + relaxed-policy set | E3.4, E9.5 |
 
-### E6 — Identifier validation
+### [E4 — Code lists and effective-dated rulesets](https://github.com/lorenzo-vecchio/fattura-validator/issues/4) (tracking issue #4)
 
 | Key | Title | Depends on |
 | --- | --- | --- |
-| E6.1 | Partita IVA checksum | E1.2 |
-| E6.2 | Codice Fiscale for individuals, including omocodia | E6.1 |
-| E6.3 | IBAN mod-97, country structure and ABI/CAB consistency | E6.1 |
-| E6.4 | Geographic and currency codes | E4.6 |
-| E6.5 | CIG/CUP formats and email/PEC heuristics | E4.6 |
+| [E4.1](https://github.com/lorenzo-vecchio/fattura-validator/issues/27) | Effective-dated table infrastructure | E1.2 |
+| [E4.2](https://github.com/lorenzo-vecchio/fattura-validator/issues/28) | SdI closed enumerations from the XSD | E4.1, E3.1 |
+| [E4.3](https://github.com/lorenzo-vecchio/fattura-validator/issues/29) | Deprecation windows and validity cutovers | E4.2 |
+| [E4.4](https://github.com/lorenzo-vecchio/fattura-validator/issues/30) | CausalePagamento with CU-yearly versions | E4.1 |
+| [E4.5](https://github.com/lorenzo-vecchio/fattura-validator/issues/31) | AltriDatiGestionali/TipoDato quasi-enumeration | E4.1 |
+| [E4.6](https://github.com/lorenzo-vecchio/fattura-validator/issues/32) | External open lists: ISO 3166-1, ISO 4217, provinces, Incoterms | E4.1 |
 
-### E7 — L0 file layer
-
-| Key | Title | Depends on |
-| --- | --- | --- |
-| E7.1 | File-name validation (00001) | E1.2 |
-| E7.2 | Size limits (00003) | E1.2 |
-| E7.3 | ZIP archive support (00106) | E7.1, E2.1 |
-| E7.4 | `.p7m` CAdES envelope parsing | E7.2 |
-| E7.5 | Encoding detection and declared-vs-actual checks | E2.5 |
-
-### E8 — Signature verification
+### [E5 — L3 content rules (004xx)](https://github.com/lorenzo-vecchio/fattura-validator/issues/5) (tracking issue #5)
 
 | Key | Title | Depends on |
 | --- | --- | --- |
-| E8.1 | XAdES presence and shape rules (00103) | E2.1 |
-| E8.2 | XML-DSig integrity verification (00102) | E8.1 |
-| E8.3 | Certificate validity window (00100, 00105, 00107) | E8.2 |
-| E8.4 | CAdES parity and trust/revocation status model (00101, 00104) | E8.3, E7.4 |
+| [E5.1](https://github.com/lorenzo-vecchio/fattura-validator/issues/33) | Natura ↔ AliquotaIVA consistency | E2.2, E4.2 |
+| [E5.2](https://github.com/lorenzo-vecchio/fattura-validator/issues/34) | Riepilogo coverage and matching (00419/00443/00444) | E5.1 |
+| [E5.3](https://github.com/lorenzo-vecchio/fattura-validator/issues/35) | Invoice arithmetic: 00421, 00422, 00423 | E1.3, E5.2 |
+| [E5.4](https://github.com/lorenzo-vecchio/fattura-validator/issues/36) | Withholding, payment and discount structure | E5.3 |
+| [E5.5](https://github.com/lorenzo-vecchio/fattura-validator/issues/37) | Transmission coherence: 00427, 00428, 00426, 00313 | E2.2, E4.2 |
+| [E5.6](https://github.com/lorenzo-vecchio/fattura-validator/issues/38) | TipoDocumento rule matrix 00471–00476 | E2.4, E4.2 |
+| [E5.7](https://github.com/lorenzo-vecchio/fattura-validator/issues/39) | Deprecated codes and FSM10 amount cap (00445, 00459, 00460) | E4.3 |
+| [E5.8](https://github.com/lorenzo-vecchio/fattura-validator/issues/40) | Intra-file duplication (00409) and duplicate warnings (00404) | E2.4 |
+| [E5.9](https://github.com/lorenzo-vecchio/fattura-validator/issues/41) | Recommended non-SdI checks E1–E18 | E5.3, E6.* |
 
-### E9 — API, CLI, reporting, performance
-
-| Key | Title | Depends on |
-| --- | --- | --- |
-| E9.1 | Public Rust API and JSON contract | E1.2 |
-| E9.2 | CLI with deterministic exit codes | E9.1 |
-| E9.3 | Report rendering: JSON, text, JUnit | E9.1 |
-| E9.4 | Performance harness and budgets | E2.2, E5.3 |
-| E9.5 | Fuzzing and regression corpus | E2.5, E3.5 |
-
-### E10 — Bindings and distribution
+### [E6 — Identifier validation](https://github.com/lorenzo-vecchio/fattura-validator/issues/6) (tracking issue #6)
 
 | Key | Title | Depends on |
 | --- | --- | --- |
-| E10.1 | Stable C ABI crate | E9.1 |
-| E10.2 | WebAssembly package | E9.1, E10.1 |
-| E10.3 | Python and Node packages | E10.1 |
-| E10.4 | Release automation and cross-language conformance suite | E9.3, E10.1–E10.3 |
+| [E6.1](https://github.com/lorenzo-vecchio/fattura-validator/issues/42) | Partita IVA checksum | E1.2 |
+| [E6.2](https://github.com/lorenzo-vecchio/fattura-validator/issues/43) | Codice Fiscale for individuals, including omocodia | E6.1 |
+| [E6.3](https://github.com/lorenzo-vecchio/fattura-validator/issues/44) | IBAN mod-97, country structure and ABI/CAB consistency | E6.1 |
+| [E6.4](https://github.com/lorenzo-vecchio/fattura-validator/issues/45) | Geographic and currency codes | E4.6 |
+| [E6.5](https://github.com/lorenzo-vecchio/fattura-validator/issues/46) | CIG/CUP formats and email/PEC heuristics | E4.6 |
+
+### [E7 — L0 file layer](https://github.com/lorenzo-vecchio/fattura-validator/issues/7) (tracking issue #7)
+
+| Key | Title | Depends on |
+| --- | --- | --- |
+| [E7.1](https://github.com/lorenzo-vecchio/fattura-validator/issues/47) | File-name validation (00001) | E1.2 |
+| [E7.2](https://github.com/lorenzo-vecchio/fattura-validator/issues/48) | Size limits (00003) | E1.2 |
+| [E7.3](https://github.com/lorenzo-vecchio/fattura-validator/issues/49) | ZIP archive support (00106) | E7.1, E2.1 |
+| [E7.4](https://github.com/lorenzo-vecchio/fattura-validator/issues/50) | `.p7m` CAdES envelope parsing | E7.2 |
+| [E7.5](https://github.com/lorenzo-vecchio/fattura-validator/issues/51) | Encoding detection and declared-vs-actual checks | E2.5 |
+
+### [E8 — Signature verification](https://github.com/lorenzo-vecchio/fattura-validator/issues/8) (tracking issue #8)
+
+| Key | Title | Depends on |
+| --- | --- | --- |
+| [E8.1](https://github.com/lorenzo-vecchio/fattura-validator/issues/52) | XAdES presence and shape rules (00103) | E2.1 |
+| [E8.2](https://github.com/lorenzo-vecchio/fattura-validator/issues/53) | XML-DSig integrity verification (00102) | E8.1 |
+| [E8.3](https://github.com/lorenzo-vecchio/fattura-validator/issues/54) | Certificate validity window (00100, 00105, 00107) | E8.2 |
+| [E8.4](https://github.com/lorenzo-vecchio/fattura-validator/issues/55) | CAdES parity and trust/revocation status model (00101, 00104) | E8.3, E7.4 |
+
+### [E9 — API CLI reporting and performance](https://github.com/lorenzo-vecchio/fattura-validator/issues/9) (tracking issue #9)
+
+| Key | Title | Depends on |
+| --- | --- | --- |
+| [E9.1](https://github.com/lorenzo-vecchio/fattura-validator/issues/56) | Public Rust API and JSON contract | E1.2 |
+| [E9.2](https://github.com/lorenzo-vecchio/fattura-validator/issues/57) | CLI with deterministic exit codes | E9.1 |
+| [E9.3](https://github.com/lorenzo-vecchio/fattura-validator/issues/58) | Report rendering: JSON, text, JUnit | E9.1 |
+| [E9.4](https://github.com/lorenzo-vecchio/fattura-validator/issues/59) | Performance harness and budgets | E2.2, E5.3 |
+| [E9.5](https://github.com/lorenzo-vecchio/fattura-validator/issues/60) | Fuzzing and regression corpus | E2.5, E3.5 |
+
+### [E10 — Bindings and distribution](https://github.com/lorenzo-vecchio/fattura-validator/issues/10) (tracking issue #10)
+
+| Key | Title | Depends on |
+| --- | --- | --- |
+| [E10.1](https://github.com/lorenzo-vecchio/fattura-validator/issues/61) | Stable C ABI crate | E9.1 |
+| [E10.2](https://github.com/lorenzo-vecchio/fattura-validator/issues/62) | WebAssembly package | E9.1, E10.1 |
+| [E10.3](https://github.com/lorenzo-vecchio/fattura-validator/issues/63) | Python and Node packages | E10.1 |
+| [E10.4](https://github.com/lorenzo-vecchio/fattura-validator/issues/64) | Release automation and cross-language conformance suite | E9.3, E10.1–E10.3 |
 
 ---
 
