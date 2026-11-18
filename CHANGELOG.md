@@ -9,7 +9,25 @@ changes cite the official SdI control code and the source document.
 
 ## [Unreleased]
 
-No unreleased changes yet.
+### Added
+
+* **E2.1 — Streaming XML reader.** A `quick-xml`-backed reader over `&[u8]` that yields
+  borrowed element/attribute names and text with byte offsets and element depth. Element
+  matching is namespace-agnostic on local names, because the official schema leaves
+  children unqualified (`P1 §5.1`); prefixes are recorded for reporting only. Comments
+  and processing instructions are skipped; whitespace is never trimmed (`P3 §8`). The
+  reader exposes the root prefix, namespace and `@versione`, and a one-pass `scan`
+  returns L1 findings. Depth and text-run guards are typed warnings, never aborts.
+* XML reader benchmarks (`benches/xml.rs`): 20-line scan **43 µs**, 5 MiB scan **35 ms**,
+  throughput **≥140 MiB/s** on the development machine (PLAN §2.4 budgets: 150 µs and
+  60 ms). An initial implementation recomputed line/column for every event and measured
+  1.7 ms for the 20-line case; positions are now computed only on the error path.
+
+### Security
+
+* DTDs and entity declarations are rejected before parsing, removing the external-entity
+  (XXE) and entity-expansion attack surface for invoice input (`P3 §8` plumbing items
+  1–6). Undefined entity references and malformed character references are L1 findings.
 
 ## [0.1.0] - TBD
 

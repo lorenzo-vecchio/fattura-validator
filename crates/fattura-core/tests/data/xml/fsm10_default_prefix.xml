@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic FSM10 fixture: default namespace, unprefixed root. See README.md. -->
+<FatturaElettronicaSemplificata versione="FSM10"
+  xmlns="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.0">
+  <FatturaElettronicaHeader>
+    <DatiTrasmissione>
+      <IdTrasmittente>
+        <IdPaese>IT</IdPaese>
+        <IdCodice>01234567890</IdCodice>
+      </IdTrasmittente>
+      <ProgressivoInvio>00002</ProgressivoInvio>
+      <FormatoTrasmissione>FSM10</FormatoTrasmissione>
+      <CodiceDestinatario>0000000</CodiceDestinatario>
+    </DatiTrasmissione>
+    <CedentePrestatore>
+      <DatiAnagrafici>
+        <IdFiscaleIVA>
+          <IdPaese>IT</IdPaese>
+          <IdCodice>01234567890</IdCodice>
+        </IdFiscaleIVA>
+        <Anagrafica>
+          <Denominazione>Fornitore semplificato</Denominazione>
+        </Anagrafica>
+        <RegimeFiscale>RF19</RegimeFiscale>
+      </DatiAnagrafici>
+      <Sede>
+        <Indirizzo>Via Roma 1</Indirizzo>
+        <CAP>00100</CAP>
+        <Comune>Roma</Comune>
+        <Nazione>IT</Nazione>
+      </Sede>
+    </CedentePrestatore>
+    <CessionarioCommittente>
+      <DatiAnagrafici>
+        <Anagrafica>
+          <Denominazione>Cliente semplificato</Denominazione>
+        </Anagrafica>
+      </DatiAnagrafici>
+      <Sede>
+        <Indirizzo>Via Milano 2</Indirizzo>
+        <CAP>20100</CAP>
+        <Comune>Milano</Comune>
+        <Nazione>IT</Nazione>
+      </Sede>
+    </CessionarioCommittente>
+  </FatturaElettronicaHeader>
+  <FatturaElettronicaBody>
+    <DatiGenerali>
+      <DatiGeneraliDocumento>
+        <TipoDocumento>TD07</TipoDocumento>
+        <Divisa>EUR</Divisa>
+        <Data>2026-11-18</Data>
+        <Numero>2/2026</Numero>
+      </DatiGeneraliDocumento>
+    </DatiGenerali>
+    <DatiBeniServizi>
+      <DettaglioLinee>
+        <NumeroLinea>1</NumeroLinea>
+        <Descrizione>Prestazione occasionale</Descrizione>
+        <PrezzoUnitario>50.00</PrezzoUnitario>
+        <PrezzoTotale>50.00</PrezzoTotale>
+        <AliquotaIVA>0.00</AliquotaIVA>
+        <Natura>N2.2</Natura>
+      </DettaglioLinee>
+      <DatiRiepilogo>
+        <AliquotaIVA>0.00</AliquotaIVA>
+        <Natura>N2.2</Natura>
+        <ImponibileImporto>50.00</ImponibileImporto>
+        <Imposta>0.00</Imposta>
+      </DatiRiepilogo>
+    </DatiBeniServizi>
+  </FatturaElettronicaBody>
+</FatturaElettronicaSemplificata>

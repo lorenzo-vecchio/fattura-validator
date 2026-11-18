@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="fatturapa_v1.2.3.xsl"?>
+<!--
+  Synthetic FPR12 fixture modelled on the root and header of P1 §5.2 and the
+  element tree of P1 §6. Not an official AdE file; see README.md in this folder.
+-->
+<p:FatturaElettronica versione="FPR12" SistemaEmittente="TEST"
+  xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2"
+  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 Schema_VFPR12_v1.2.3.xsd">
+  <FatturaElettronicaHeader>
+    <DatiTrasmissione>
+      <IdTrasmittente>
+        <IdPaese>IT</IdPaese>
+        <IdCodice>01234567890</IdCodice>
+      </IdTrasmittente>
+      <ProgressivoInvio>00001</ProgressivoInvio>
+      <FormatoTrasmissione>FPR12</FormatoTrasmissione>
+      <CodiceDestinatario>0000000</CodiceDestinatario>
+      <PECDestinatario>destinatario@example.it</PECDestinatario>
+    </DatiTrasmissione>
+    <CedentePrestatore>
+      <DatiAnagrafici>
+        <IdFiscaleIVA>
+          <IdPaese>IT</IdPaese>
+          <IdCodice>01234567890</IdCodice>
+        </IdFiscaleIVA>
+        <CodiceFiscale>01234567890</CodiceFiscale>
+        <Anagrafica>
+          <Denominazione>Fornitore di prova S.r.l.</Denominazione>
+        </Anagrafica>
+        <RegimeFiscale>RF01</RegimeFiscale>
+      </DatiAnagrafici>
+      <Sede>
+        <Indirizzo>Via Roma 1</Indirizzo>
+        <CAP>00100</CAP>
+        <Comune>Roma</Comune>
+        <Provincia>RM</Provincia>
+        <Nazione>IT</Nazione>
+      </Sede>
+    </CedentePrestatore>
+    <CessionarioCommittente>
+      <DatiAnagrafici>
+        <Anagrafica>
+          <Denominazione>Cliente di prova S.p.A.</Denominazione>
+        </Anagrafica>
+      </DatiAnagrafici>
+      <Sede>
+        <Indirizzo>Via Milano 2</Indirizzo>
+        <CAP>20100</CAP>
+        <Comune>Milano</Comune>
+        <Provincia>MI</Provincia>
+        <Nazione>IT</Nazione>
+      </Sede>
+    </CessionarioCommittente>
+  </FatturaElettronicaHeader>
+  <FatturaElettronicaBody>
+    <DatiGenerali>
+      <DatiGeneraliDocumento>
+        <TipoDocumento>TD01</TipoDocumento>
+        <Divisa>EUR</Divisa>
+        <Data>2026-11-18</Data>
+        <Numero>1/2026</Numero>
+        <Causale><![CDATA[Consulenza  tecnica & formazione]]></Causale>
+      </DatiGeneraliDocumento>
+    </DatiGenerali>
+    <DatiBeniServizi>
+      <DettaglioLinee>
+        <NumeroLinea>1</NumeroLinea>
+        <Descrizione>Servizio &amp; consulenza</Descrizione>
+        <Quantita>1.00</Quantita>
+        <PrezzoUnitario>100.00</PrezzoUnitario>
+        <PrezzoTotale>100.00</PrezzoTotale>
+        <AliquotaIVA>22.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DettaglioLinee>
+        <NumeroLinea>2</NumeroLinea>
+        <Descrizione>Formazione</Descrizione>
+        <!-- a comment between two elements is not character data -->
+        <Quantita>2.00</Quantita>
+        <PrezzoUnitario>50.00</PrezzoUnitario>
+        <PrezzoTotale>100.00</PrezzoTotale>
+        <AliquotaIVA>22.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DatiRiepilogo>
+        <AliquotaIVA>22.00</AliquotaIVA>
+        <ImponibileImporto>200.00</ImponibileImporto>
+        <Imposta>44.00</Imposta>
+      </DatiRiepilogo>
+    </DatiBeniServizi>
+  </FatturaElettronicaBody>
+</p:FatturaElettronica>

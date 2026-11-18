@@ -1,6 +1,6 @@
 # fattura-validator — implementation plan
 
-**Status:** implementation — milestone M1 complete · **Plan date:** 12 November 2026 · **Target:** Rust library (crate) that
+**Status:** implementation — milestone M2 in progress · **Plan date:** 12 November 2026 · **Target:** Rust library (crate) that
 validates Italian *fatture elettroniche* offline, with language bindings as a later milestone.
 
 Research inputs live in [`sources/`](sources/) and are the normative reference for this plan:

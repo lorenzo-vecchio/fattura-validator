@@ -5,9 +5,9 @@ Rust. Validates the file, the XML, the XSD conformance, and the SdI content rule
 can be checked without any network access — then states clearly what it could **not**
 check.
 
-> **Status: M1 (E1 — foundation) in progress.** The workspace, diagnostic vocabulary,
-> exact arithmetic, CI gates and project governance are landing under milestone M1. The
-> implementation plan and the research it is based on live in
+> **Status: M2 (E2 — XML ingestion and typed model) in progress.** The E1 foundation is
+> complete; the streaming, namespace-agnostic XML reader (E2.1) now lands under
+> milestone M2. The implementation plan and the research it is based on live in
 > [`.planning/`](.planning/). Work is tracked in the
 > [issue tracker](https://github.com/lorenzo-vecchio/fattura-validator/issues).
 

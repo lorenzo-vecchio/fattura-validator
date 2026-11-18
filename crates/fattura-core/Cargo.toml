@@ -28,6 +28,7 @@ p7m = ["dep:smallvec"]
 signature = ["dep:smallvec"]
 
 [dependencies]
+quick-xml.workspace = true
 serde.workspace = true
 smallvec = { workspace = true, optional = true }
 
@@ -45,6 +46,10 @@ mutants = "0.0.4"
 
 [[bench]]
 name = "smoke"
+harness = false
+
+[[bench]]
+name = "xml"
 harness = false
 
 [lints]
