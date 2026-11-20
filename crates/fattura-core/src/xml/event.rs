@@ -108,7 +108,7 @@ pub struct Text<'a> {
 }
 
 impl<'a> Text<'a> {
-    pub(super) fn new(inner: Cow<'a, [u8]>, cdata: bool, depth: usize, offset: u64) -> Self {
+    pub(crate) fn new(inner: Cow<'a, [u8]>, cdata: bool, depth: usize, offset: u64) -> Self {
         Self {
             inner,
             cdata,
@@ -126,6 +126,17 @@ impl<'a> Text<'a> {
     #[must_use]
     pub fn raw(&self) -> &[u8] {
         &self.inner
+    }
+
+    /// Consumes the event and returns its backing bytes.
+    ///
+    /// The typed model uses this to keep text borrowed from the input: a
+    /// `Cow::Borrowed` value can be carried forward with the input lifetime,
+    /// while a `Cow::Owned` value (only produced when the reader had to
+    /// normalise or decode) is copied into the model's owned string.
+    #[must_use]
+    pub fn into_raw(self) -> Cow<'a, [u8]> {
+        self.inner
     }
 
     /// Returns `true` when the data came from a CDATA section.

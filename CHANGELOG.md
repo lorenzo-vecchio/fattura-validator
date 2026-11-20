@@ -11,6 +11,22 @@ changes cite the official SdI control code and the source document.
 
 ### Added
 
+* **E2.2 — Typed FPA12/FPR12 document model.** A streaming, one-pass builder over the E2.1
+  reader produces the complete element tree of `P1 §6`: header (transmission, seller, tax
+  representatives, buyer, intermediary), body (document data, correlated documents, SAL,
+  DDT, transport, main invoice, lines, VAT summary, vehicle, payments, attachments), with
+  every nested block. Money is `num::Amount`, rates are `num::Rate`, `xs:date` fields are
+  `model::CivilDate` (pure integer calendar, no clock, no `f64`); `xs:dateTime` keeps its
+  raw lexical form for E3.3. Repetitions preserve document order in `SmallVec`-backed
+  lists, so the 1-based index matches finding paths. Unknown elements are retained with
+  their byte offset and depth for XSD reporting. Text borrows from the input unless an
+  entity reference forces a decoded copy. A malformed numeric or date value becomes
+  `None` and is left to the schema layer, so one bad value never hides the rest of the
+  document. Model benchmarks (`benches/model.rs`): a **12.9 KB** exhaustive invoice parses in
+  **88–94 µs** (PLAN §2.4 budget: 150 µs) and a **5 MB lotto** in **43–54 ms**
+  (88–112 MiB/s; budget: 60 ms) on the development machine;
+  `size_of::<Document>()` is **6,368 bytes** (recorded by
+  `document_value_stays_small_enough_to_return_by_value`).
 * **E2.1 — Streaming XML reader.** A `quick-xml`-backed reader over `&[u8]` that yields
   borrowed element/attribute names and text with byte offsets and element depth. Element
   matching is namespace-agnostic on local names, because the official schema leaves

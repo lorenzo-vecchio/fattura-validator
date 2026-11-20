@@ -21,16 +21,18 @@ path = "src/lib.rs"
 [features]
 default = ["std"]
 # The core targets `no_std` + `alloc` eventually. Today `std` is required by the
-# report serialization path; the other features gate optional pipelines.
+# report serialization path; `zip`, `p7m` and `signature` gate optional pipelines.
 std = []
 zip = []
-p7m = ["dep:smallvec"]
-signature = ["dep:smallvec"]
+p7m = []
+signature = []
 
 [dependencies]
 quick-xml.workspace = true
 serde.workspace = true
-smallvec = { workspace = true, optional = true }
+# `smallvec` backs the typed model's index-preserving per-body collections
+# (E2.2), so it is a normal dependency rather than optional.
+smallvec.workspace = true
 
 [dev-dependencies]
 serde_json.workspace = true
@@ -50,6 +52,10 @@ harness = false
 
 [[bench]]
 name = "xml"
+harness = false
+
+[[bench]]
+name = "model"
 harness = false
 
 [lints]
